@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Project</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+			<script type="text/javascript">
+		;(function(){
+			var modificators = [],
+				nv = navigator,
+				pl = nv.platform.toLowerCase(),
+				ua = nv.userAgent.toLowerCase(),
+				an = nv.appName.toLowerCase(),
+				htmlElement = document.documentElement,
+				ls = localStorage;
+
+			function pli(s){return pl.indexOf(s) > -1;}
+			function uai(s){return ua.indexOf(s) > -1;}
+			function ani(s){return an.indexOf(s) > -1;}
+
+			// Platform
+			var platformClass = uai('iphone') || uai('ipod') || uai('ipad') || uai('android') || uai('iemobile') || uai('blackberry') || uai('bada') ? '_mobile' : '_desktop';
+			modificators.push(platformClass);
+
+			// OS
+			var osClass = '';
+			if (uai('ipad') || uai('iphone') || uai('ipod')) {
+				osClass = '_ios';
+			} else if (uai('android')) {
+				osClass = '_android';
+			} else if (pli('win')) {
+				osClass = '_win';
+			} else if (pli('mac')) {
+				osClass = '_mac';
+			} else if (pli('linux')) {
+				osClass = '_linux';
+			}
+			modificators.push(osClass);
+
+			// Browser
+			var browserClass = '';
+			if (uai('firefox')) {
+				browserClass = '_ff';
+			} else if (uai('opr')) {
+				browserClass = '_opera';
+			} else if (uai('yabrowser')) {
+				browserClass = '_yandex';
+			} else if (uai('edge')) {
+				browserClass = '_edge';
+			} else if (uai('trident') || ani('explorer') || ani('msie')) {
+				browserClass = '_ie';
+			} else if (uai('safari') && !uai('chrome')) {
+				browserClass = '_safari';
+			} else if (uai('chrome')) {
+				browserClass = '_chrome';
+			}
+			modificators.push(browserClass);
+
+			window.environmentObject = {
+				platform: platformClass,
+				os: osClass,
+				browser: browserClass,
+				isLocal: window.location.href.indexOf('http://localhost:') == 0
+			};
+			htmlElement.className += ' ' + modificators.join(' ');
+
+			// SVG sprites
+			var xhr = new XMLHttpRequest();
+			xhr.open('GET', 'assets/svg/sprite.svg', true);
+			xhr.overrideMimeType('image/svg+xml');
+			
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+					function waitForBody(){
+						if(document.body){
+							var containerClass = 'invisible-container';
+							var container = document.querySelector('.'+containerClass);
+							if(!container){
+								container = document.createElement('div');
+								container.className = containerClass;
+								document.body.insertBefore(container, document.body.firstChild);
+							}
+							container.appendChild(xhr.responseXML.documentElement);
+						} else {
+							setTimeout(waitForBody, 16);
+						}
+					}
+
+					waitForBody();	
+				};
+			}
+
+			xhr.send('');
+		})();
+	</script>
+
+
+			<link rel="preconnect" href="https://fonts.googleapis.com">
+			<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+			<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+			<link rel="stylesheet" href="assets/css/styles.css?hash" />
+	</head>
+	<body>
+
+		<div class="wrapper">
+
+
+<header class="header">
+	<div class="container container--hd ">
+<nav class="navigation">
+	<div class="navigation__logo">
+		<a href="#!">
+			<img src="../../assets/images/logo/Logo.jpg" alt="Логотип">
+		</a>
+	</div>
+	<div class="navigation__basket">
+		<a class="navigation__basket-link" href="#!">
+				<svg
+	class="icon"
+>
+		<use xlink:href="#icon-zoom" />
+	</svg>
+
+		</a>
+		<a class="navigation__basket-link navigation__basket-link--circle" href="#!">
+				<svg
+	class="icon"
+>
+		<use xlink:href="#icon-basket" />
+	</svg>
+
+			<span class="navigation__basket-link--circle-number">2</span>
+		</a>
+	</div>
+	<div class="navigation__burger">
+		<span class="navigation__item"></span>
+	</div>
+</nav>
+	</div>
+</header>
+<div class="sections-wrapper">
+<section class="sections-progress-billing-wrapper">
+<section class="section-progress">
+	<div class="container section-progress__wrapper">
+		<div class="row">
+			<ul class="progress-list">
+				<li class="progress-list__item">
+					<span class="progress-list__circle active">1</span>
+					<span class="progress-list__title">Account</span>
+				</li>
+				<li class="progress-list__item">
+					<span class="progress-list__circle active">2</span>
+					<span class="progress-list__title">Shipping</span>
+				</li>
+				<li class="progress-list__item">
+					<span class="progress-list__circle">3</span>
+					<span class="progress-list__title">Billing</span>
+				</li>
+				<li class="progress-list__item">
+					<span class="progress-list__circle progress-list__circle--end">4</span>
+					<span class="progress-list__title">Review</span>
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>
+<section class="section-billing">
+	<div class="container section-billing__container">
+		<div class="row section-billing__row">
+			<div class="section-billing__title">
+					<h1 class="title">Billing Information</h1>
+			</div>
+			<div class="section-billing__method">
+				<label class="section-billing__radio">
+					<input class="real-radio" type="radio" name="method-pay">
+					<span class="custom-radio"></span>
+					Pay with Credit Card
+				</label>
+				<label class="section-billing__radio">
+					<input class="real-radio" type="radio" name="method-pay">
+					<span class="custom-radio"></span>
+							<svg
+	class="icon"
+>
+		<use xlink:href="#icon-paypal" />
+	</svg>
+
+				</label>
+			</div>
+			<form class="form">
+				<label class="form__name-card card">
+					<div class="form__card-title">
+						<span>Name on card</span>
+					</div>
+					<input class="form__name-card-input card-input" type="text" placeholder="Placeholder Text">
+				</label>
+				<label class="form__number-card card">
+					<div class="form__card-title">
+						<span class="form__card-title">Card number</span>
+					</div>
+					<div class="card-input-wrapper">
+						<input class="card-input" type="number">
+						<input class="card-input" type="number">
+						<input class="card-input" type="number">
+						<input class="card-input" type="number">
+					</div>
+				</label>
+				<label class="form__date-cvv-card card">
+					<div class="form__date-cvv">
+						<span class="form__card-title">Expire date</span>
+						<input class="card-input" type="text">
+					</div>
+					<div class="form__date-card">
+						<span class="form__card-title">CVV code</span>
+						<input class="card-input" type="text">
+					</div>
+				</label>
+
+			</form>
+			<div class="form-privacy-wrapper">
+				<div class="form-privacy">
+					<label class="form-privacy__item-1">
+						<input class="real-checkbox" type="checkbox" name="privacy">
+						<span  class="custom-checkbox"></span>
+						Save information of this credit card
+					</label>
+					<label class="form-privacy__item-2">
+						<input class="real-checkbox" type="checkbox" name="privacy">
+						<span  class="custom-checkbox"></span>
+						<span>I accept the <span class="form-privacy__item-2--bold">terms and comditions</span> and the <span class="form-privacy__item-2--bold">Privacy Policies</span></span>
+					</label>
+				</div>
+				<div class="form-privacy__buttons">
+					<button class="button button--back">Back</button>
+					<button type="submit" class="button">Check Out</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+</section>
+<section class="section-basket">
+	<div class="container section-basket-container">
+		<div class="section-basket__title">
+			<h2 class="title">My basket</h2>
+		</div>
+		<div class="section-basket__list">
+			<div class="section-basket__item-wrapper">
+				<div class="section-basket__item">
+					<div class="section-basket__image">
+						<img src="../../assets/images/basket/basket-img.jpg" alt="Картинка товара">
+					</div>
+					<div class="section-basket__desc">
+						<div class="section-basket__desc-title">
+							<p>Amet minim mollit non
+								deserunt ullamco est sit</p>
+						</div>
+						<div class="section-basket__desc-counter">
+							<a class="section-basket__quantity-minus" href="#!">
+									<svg
+	class="icon"
+>
+		<use xlink:href="#icon-minus-counter" />
+	</svg>
+
+							</a>
+							<span class="section-basket__counter">1</span>
+							<a class="section-basket__quantity-plus" href="#!">
+									<svg
+	class="icon"
+>
+		<use xlink:href="#icon-plus-counter" />
+	</svg>
+
+							</a>&dollar;
+							<span class="section-basket__price">525</span>
+						</div>
+					</div>
+				</div>
+				<a href="#!" class="section-basket__close">
+						<svg
+	class="icon"
+>
+		<use xlink:href="#icon-close" />
+	</svg>
+
+				</a>
+			</div>
+
+			<div class="section-basket__item-wrapper">
+				<div class="section-basket__item">
+					<div class="section-basket__image">
+						<img src="../../assets/images/basket/basket-img-2.jpg" alt="Картинка товара">
+					</div>
+					<div class="section-basket__desc">
+						<div class="section-basket__desc-title">
+							<p>Amet minim mollit non</p>
+						</div>
+						<div class="section-basket__desc-counter">
+							<a class="section-basket__quantity-minus" href="#!">
+									<svg
+	class="icon"
+>
+		<use xlink:href="#icon-minus-counter" />
+	</svg>
+
+							</a>
+							<span class="section-basket__counter">1</span>
+							<a class="section-basket__quantity-plus" href="#!">
+									<svg
+	class="icon"
+>
+		<use xlink:href="#icon-plus-counter" />
+	</svg>
+
+							</a>&dollar;
+							<span class="section-basket__price">525</span>
+						</div>
+					</div>
+				</div>
+				<a href="#!" class="section-basket__close">
+						<svg
+	class="icon"
+>
+		<use xlink:href="#icon-close" />
+	</svg>
+
+				</a>
+			</div>
+		</div>
+		<span class="under-line"></span>
+		<div class="section-basket__promo">
+			<div class="section-basket__promo-title">
+				<h2 class="title">Promo code</h2>
+			</div>
+			<div class="section-basket__promo-code">
+				<input class="section-basket__promo-input card-input" type="text" placeholder="Placeholder Text">
+				<button class="section-basket__promo-button button">Apply</button>
+			</div>
+		</div>
+		<span class="under-line"></span>
+		<div class="section-basket__total-list">
+			<div class="section-basket__total-item">
+				<span class="section-basket__total-name">Subtotal</span>
+				<span class="section-basket__total-price-subtotal">$1 050</span>
+			</div>
+			<div class="section-basket__total-item">
+				<span class="section-basket__total-name">Tax</span>
+				<span class="section-basket__total-price">$100</span>
+			</div>
+			<div class="section-basket__total-item">
+				<span class="section-basket__total-name">Shipping</span>
+				<span class="section-basket__total-price">$150</span>
+			</div>
+			<div class="section-basket__total-item total">
+				<span class="section-basket__total-name">Total</span>
+				<span class="section-basket__total-price-total">$1 300</span>
+			</div>
+		</div>
+	</div>
+</section>
+</div>
+
+		</div>
+
+			<script src="assets/js/bundle.js?hash"></script>
+	</body>
+</html>
